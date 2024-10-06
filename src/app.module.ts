@@ -18,6 +18,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         DB_PASSWORD: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
         DB_SYNC: Joi.boolean().required(),
+        DB_ENTITIES: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRoot({
@@ -27,7 +28,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [`${__dirname}/**/entities/*.entity.{ts,js}`],
+      entities: [`${__dirname}${process.env.DB_ENTITIES}`],
       synchronize: process.env.DB_SYNC,
     }),
     DiaryModule,
