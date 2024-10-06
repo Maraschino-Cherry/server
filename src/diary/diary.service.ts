@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDiaryDto } from './dto/create-diary.dto';
 import { UpdateDiaryDto } from './dto/update-diary.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -28,8 +28,19 @@ export class DiaryService {
     return await this.diaryRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateDiaryDto: UpdateDiaryDto) {
-    return `This action updates a #${id} diary`;
+  async update(
+    id: number,
+    updateDiaryDto: UpdateDiaryDto,
+  ): Promise<DiaryEntity> {
+    const diary = this.diaryRepository.findOne({ where: { id } });
+
+    if (!diary) {
+      throw new NotFoundException(`${id}의 다이어리가 없습니다.`);
+    }
+
+    await this.diaryRepository.update(id, updateDiaryDto);
+    const updatedDiary = await this.diaryRepository.findOne({ where: { id } });
+    return updatedDiary;
   }
 
   remove(id: number) {
