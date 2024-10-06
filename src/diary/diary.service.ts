@@ -1,14 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDiaryDto } from './dto/create-diary.dto';
 import { UpdateDiaryDto } from './dto/update-diary.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DiaryEntity } from './entities/diary.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class DiaryService {
-  create(createDiaryDto: CreateDiaryDto) {
-    return 'This action adds a new diary';
+  constructor(
+    @InjectRepository(DiaryEntity)
+    private diaryRepository: Repository<DiaryEntity>,
+  ) {}
+
+  async create(createDiaryDto: CreateDiaryDto): Promise<DiaryEntity> {
+    const { title, content } = createDiaryDto;
+    const diary = this.diaryRepository.create({ title, content });
+
+    await this.diaryRepository.save(diary);
+    return diary;
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all diary`;
   }
 
