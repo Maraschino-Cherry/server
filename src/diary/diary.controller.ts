@@ -22,8 +22,8 @@ export class DiaryController {
   }
 
   @Get()
-  findAll() {
-    return this.diaryService.findAll();
+  getAllDiaries() {
+    return this.diaryService.getAllDiaries();
   }
 
   @Get(':id')
