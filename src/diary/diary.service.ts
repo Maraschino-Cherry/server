@@ -24,8 +24,8 @@ export class DiaryService {
     return await this.diaryRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} diary`;
+  async getDiary(id: number): Promise<DiaryEntity> {
+    return await this.diaryRepository.findOne({ where: { id } });
   }
 
   update(id: number, updateDiaryDto: UpdateDiaryDto) {
