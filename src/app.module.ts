@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DiaryModule } from './diary/diary.module';
 import { ConfigModule } from '@nestjs/config';
-import Joi from 'joi';
+import * as Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
