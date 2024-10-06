@@ -22,17 +22,20 @@ export class DiaryController {
   }
 
   @Get()
-  getAllDiaries() {
+  getAllDiaries(): Promise<DiaryEntity[]> {
     return this.diaryService.getAllDiaries();
   }
 
   @Get(':id')
-  getDiary(@Param('id') id: string) {
+  getDiary(@Param('id') id: string): Promise<DiaryEntity> {
     return this.diaryService.getDiary(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDiaryDto: UpdateDiaryDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDiaryDto: UpdateDiaryDto,
+  ): Promise<DiaryEntity> {
     return this.diaryService.update(+id, updateDiaryDto);
   }
 
