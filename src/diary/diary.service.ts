@@ -20,8 +20,8 @@ export class DiaryService {
     return diary;
   }
 
-  async findAll() {
-    return `This action returns all diary`;
+  async getAllDiaries(): Promise<DiaryEntity[]> {
+    return await this.diaryRepository.find();
   }
 
   findOne(id: number) {
