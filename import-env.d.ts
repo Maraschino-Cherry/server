@@ -6,5 +6,6 @@ declare namespace NodeJS {
     DB_PASSWORD: string;
     DB_DATABASE: string;
     DB_SYNC: boolean;
+    DB_ENTITIES: string;
   }
 }
