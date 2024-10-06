@@ -43,7 +43,10 @@ export class DiaryService {
     return updatedDiary;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} diary`;
+  async remove(id: number): Promise<void> {
+    const result = await this.diaryRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`${id}의 다이어리가 없습니다.`);
+    }
   }
 }
