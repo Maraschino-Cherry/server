@@ -28,7 +28,7 @@ export class DiaryController {
 
   @Get(':id')
   getDiary(@Param('id') id: string) {
-    return this.diaryService.findOne(+id);
+    return this.diaryService.getDiary(+id);
   }
 
   @Patch(':id')
