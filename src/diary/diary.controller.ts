@@ -40,7 +40,7 @@ export class DiaryController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<void> {
     return this.diaryService.remove(+id);
   }
 }
