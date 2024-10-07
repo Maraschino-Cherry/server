@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DiaryModule } from './diary/diary.module';
 import { ConfigModule } from '@nestjs/config';
-import * as Joi from 'joi';
+import { object, string, number, boolean } from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -11,13 +11,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ConfigModule.forRoot({
       envFilePath: `src/configs/env/.${process.env.NODE_ENV}.env`,
       isGlobal: true,
-      validationSchema: Joi.object({
-        DB_HOST: Joi.string().required(),
-        DB_PORT: Joi.number().required(),
-        DB_USERNAME: Joi.string().required(),
-        DB_PASSWORD: Joi.string().required(),
-        DB_DATABASE: Joi.string().required(),
-        DB_SYNC: Joi.boolean().required(),
+      cache: true,
+      validationSchema: object({
+        DB_HOST: string().required(),
+        DB_PORT: number().required(),
+        DB_USERNAME: string().required(),
+        DB_PASSWORD: string().required(),
+        DB_DATABASE: string().required(),
+        DB_SYNC: boolean().required(),
       }),
     }),
     TypeOrmModule.forRoot({
