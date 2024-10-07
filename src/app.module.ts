@@ -2,9 +2,37 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DiaryModule } from './diary/diary.module';
+import { ConfigModule } from '@nestjs/config';
+import { object, string, number, boolean } from 'joi';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [DiaryModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: `src/configs/env/.${process.env.NODE_ENV}.env`,
+      isGlobal: true,
+      cache: true,
+      validationSchema: object({
+        DB_HOST: string().required(),
+        DB_PORT: number().required(),
+        DB_USERNAME: string().required(),
+        DB_PASSWORD: string().required(),
+        DB_DATABASE: string().required(),
+        DB_SYNC: boolean().required(),
+      }),
+    }),
+    TypeOrmModule.forRoot({
+      type: 'mariadb',
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: [`${__dirname}/**/entities/*.entity.{ts,js}`],
+      synchronize: process.env.DB_SYNC,
+    }),
+    DiaryModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
