@@ -3,8 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DiaryModule } from './diary/diary.module';
 import { ConfigModule } from '@nestjs/config';
-import { object, string, number, boolean } from 'joi';
+import * as Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -12,13 +14,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       envFilePath: `src/configs/env/.${process.env.NODE_ENV}.env`,
       isGlobal: true,
       cache: true,
-      validationSchema: object({
-        DB_HOST: string().required(),
-        DB_PORT: number().required(),
-        DB_USERNAME: string().required(),
-        DB_PASSWORD: string().required(),
-        DB_DATABASE: string().required(),
-        DB_SYNC: boolean().required(),
+      validationSchema: Joi.object({
+        DB_HOST: Joi.string().required(),
+        DB_PORT: Joi.number().required(),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_DATABASE: Joi.string().required(),
+        DB_SYNC: Joi.boolean().required(),
       }),
     }),
     TypeOrmModule.forRoot({
@@ -32,6 +34,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: process.env.DB_SYNC,
     }),
     DiaryModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
