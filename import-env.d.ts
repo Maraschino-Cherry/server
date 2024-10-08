@@ -6,5 +6,10 @@ declare namespace NodeJS {
     DB_PASSWORD: string;
     DB_DATABASE: string;
     DB_SYNC: boolean;
+    ACCESS_TOKEN_SECRET_KEY: string;
+    ACCESS_TOKEN_EXPIRES: string;
+    REFRESH_TOKEN_SECRET_KEY: string;
+    REFRESH_TOKEN_SECRET_KEY: string;
+    REFRESH_TOKEN_EXPIRES: string;
   }
 }
